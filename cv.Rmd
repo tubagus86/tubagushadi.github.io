@@ -1,0 +1,120 @@
+---
+title: "Tubagus Hadi CV"
+author: Nick Strayer
+date: "`r Sys.Date()`"
+params:
+  pdf_mode:
+    value: true
+output:
+  pagedown::html_resume:
+    css: ['dd_cv.css', 'resume']
+    self_contained: true
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  results='asis', 
+  echo = FALSE
+)
+library(magrittr) # For the pipe
+library(glue)
+library(tidyverse)
+source("CV_printing_functions.R")
+# Read in all data and initialize a CV printer object
+CV <- create_CV_object(
+  data_location = "https://docs.google.com/spreadsheets/d/1cLC0cTaTysZggMLaIs7a3izxS2Ewq0cZP5WXgJcuN3M/edit#gid=917338460",  
+  pdf_location = "https://github.com/tubagus86/cv",
+  html_location = "https://github.com/tubagus86/",
+  pdf_mode = params$pdf_mode
+)
+```
+
+
+```{r}
+# Add some conditional CSS if in PDF mode needed due to quirks in chrome print rendering
+CV %>% set_style()
+```
+
+
+Aside
+================================================================================
+
+![avatar](avatar.png){width=100%}
+
+
+```{r}
+CV %>% print_link_to_other_format()
+```
+
+Contact {#contact}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %>% print_contact_info()
+```
+
+
+
+Skills {#skills}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %>% print_skill_bars()
+```
+
+
+
+Disclaimer {#disclaimer}
+--------------------------------------------------------------------------------
+
+Made with the R package [**pagedown**](https://github.com/rstudio/pagedown). 
+
+Last updated on `r Sys.Date()`.
+
+
+
+Main
+================================================================================
+
+Tubagus Hadi {#title}
+--------------------------------------------------------------------------------
+
+```{r}
+# Note the special double pipe so we modify the CV object in place
+CV %<>% print_text_block("intro") 
+```
+
+
+
+Formal Education {data-icon=graduation-cap data-concise=true}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('formal_education')
+```
+
+
+Professional Education {data-icon=graduation-cap data-concise=true}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('professional_education')
+```
+
+
+
+Working Experience {data-icon=suitcase}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('work_experience')
+```
+
+
+
+Publish Project {data-icon=newspaper}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('publish_project')
+```
